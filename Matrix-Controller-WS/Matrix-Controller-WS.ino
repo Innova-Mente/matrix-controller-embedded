@@ -21,7 +21,8 @@ bool subscribed = false;
 JsonDocument lastMsg;
 bool msgArrived = false;
 
-String topic = "matrix-08";
+String topic = "matrix-04";
+String brokerAddress = "192.168.159.178";
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
@@ -92,7 +93,7 @@ void setup() {
 		delay(1000);
 	}
 
-	WiFiMulti.addAP("LittleBarfly", "303HotelLittleBarfly");
+	WiFiMulti.addAP("LittleBarfly", "ap-micromondi");
 
 	//WiFi.disconnect();
 	while(WiFiMulti.run() != WL_CONNECTED) {
@@ -100,7 +101,7 @@ void setup() {
 	}
 
 	// server address, port and URL
-	webSocket.begin("192.168.182.178", 20000, "/");
+	webSocket.begin(brokerAddress, 20000, "/");
 
 	// event handler
 	webSocket.onEvent(webSocketEvent);
