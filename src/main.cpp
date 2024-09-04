@@ -30,8 +30,8 @@ Button *button;
 ServoMotor *servoMotor;
 PhotoResistor *photoResistor;
 
-bool isButtonDetecting = false;
-bool isPirDetecting = false;
+bool pressDetected = false;
+bool presenceDetected = false;
 
 bool isSonarDetecting = false;
 int minSonarDetectDistance = 0;
@@ -75,6 +75,16 @@ void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
     deserializeJson(lastMessage, message);
     newMessageArrived = true;
   }
+}
+
+void buttonInterrupt()
+{
+  pressDetected = true;
+}
+
+void pirInterrupt()
+{
+  presenceDetected = true;
 }
 
 void setup()
@@ -140,7 +150,7 @@ void loop()
     {
       if (action == "detectPress")
       {
-        isButtonDetecting = true;
+        attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonInterrupt, RISING);
       }
     }
     else if (target == "sonar")
@@ -170,7 +180,7 @@ void loop()
     {
       if (action == "detectPresence")
       {
-        isPirDetecting = true;
+        attachInterrupt(digitalPinToInterrupt(PIR_PIN), pirInterrupt, RISING);
       }
       else if (action == "measurePresence")
       {
@@ -196,23 +206,21 @@ void loop()
     }
   }
 
-  if (isButtonDetecting)
+  if (pressDetected)
   {
-    if (button->isPressed())
-    {
-      isButtonDetecting = false;
-      String message = createPublishMessage("button", "pressDetected", "{}");
-      webSocket.sendTXT(message);
-    }
+    detachInterrupt(digitalPinToInterrupt(BUTTON_PIN));
+    pressDetected = false;
+
+    String message = createPublishMessage("button", "pressDetected", "{}");
+    webSocket.sendTXT(message);
   }
-  if (isPirDetecting)
+  if (presenceDetected)
   {
-    if (pir->detectPresence())
-    {
-      isPirDetecting = false;
-      String message = createPublishMessage("pir", "presenceDetected", "{}");
-      webSocket.sendTXT(message);
-    }
+    detachInterrupt(digitalPinToInterrupt(PIR_PIN));
+    presenceDetected = false;
+
+    String message = createPublishMessage("pir", "presenceDetected", "{}");
+    webSocket.sendTXT(message);
   }
   if (isSonarDetecting)
   {
