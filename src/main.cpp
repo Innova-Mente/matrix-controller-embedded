@@ -174,7 +174,7 @@ void loop()
     {
       if (action == "detectPresence")
       {
-        attachInterrupt(digitalPinToInterrupt(PIR_PIN), pirInterrupt, HIGH);
+        attachInterrupt(digitalPinToInterrupt(PIR_PIN), pirInterrupt, RISING);
       }
       else if (action == "measurePresence")
       {
