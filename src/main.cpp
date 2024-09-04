@@ -6,12 +6,11 @@
 #include <led.h>
 #include <sonar.h>
 #include <pir.h>
-#include <button.h>
 #include <servo_motor.h>
 #include <photo_resistor.h>
 
 #define USE_SERIAL Serial
-#define DEVICE_NUMBER String("2")
+#define DEVICE_NUMBER String("1")
 
 #define LED_MATRIX_PIN D1
 #define LED_PIN D8
@@ -26,7 +25,6 @@ LedMatrix *ledMatrix;
 Led *led;
 Sonar *sonar;
 Pir *pir;
-Button *button;
 ServoMotor *servoMotor;
 PhotoResistor *photoResistor;
 
@@ -97,7 +95,6 @@ void setup()
   led = new Led(LED_PIN);
   sonar = new Sonar(SONAR_TRIG_PIN, SONAR_ECHO_PIN);
   pir = new Pir(PIR_PIN);
-  button = new Button(BUTTON_PIN);
   servoMotor = new ServoMotor(SERVO_MOTOR_PIN);
   photoResistor = new PhotoResistor(PHOTO_RESISTOR_PIN);
 }
@@ -177,11 +174,11 @@ void loop()
     {
       if (action == "detectPresence")
       {
-        attachInterrupt(digitalPinToInterrupt(PIR_PIN), pirInterrupt, RISING);
+        attachInterrupt(digitalPinToInterrupt(PIR_PIN), pirInterrupt, HIGH);
       }
       else if (action == "measurePresence")
       {
-        bool presence = pir->detectPresence();
+        String presence = pir->detectPresence() ? "true" : "false";
         String message = createPublishMessage("pir", "presenceMeasured", String("{ \"presence\": ") + presence + "}");
         webSocket.sendTXT(message);
       }
