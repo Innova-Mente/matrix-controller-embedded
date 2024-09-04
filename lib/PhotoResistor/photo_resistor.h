@@ -4,11 +4,11 @@
 
 class PhotoResistor
 {
-    const int pin;
+  const int pin;
 
 public:
-    PhotoResistor(int pin);
-    int measure();
+  PhotoResistor(int pin);
+  int measure();
 };
 
 #endif

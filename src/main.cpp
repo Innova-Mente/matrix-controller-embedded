@@ -52,7 +52,7 @@ String createPublishMessage(String target, String action, String params)
 
 String createSubscribeMessage(String topic)
 {
-  return String("{ \"type\": \"subscribe\", \"topic\": \"") + topic + "\"}";
+  return "{ \"type\": \"subscribe\", \"topic\": \"" + topic + "\"}";
 }
 
 void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)

@@ -4,12 +4,12 @@
 
 class Sonar
 {
-    const int trigPin;
-    const int echoPin;
+  const int trigPin;
+  const int echoPin;
 
 public:
-    Sonar(int trigPin, int echoPin);
-    bool measure();
+  Sonar(int trigPin, int echoPin);
+  bool measure();
 };
 
 #endif

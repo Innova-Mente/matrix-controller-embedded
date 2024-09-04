@@ -4,11 +4,11 @@
 
 class Button
 {
-    int pin;
+  int pin;
 
 public:
-    Button(int pin);
-    bool isPressed();
+  Button(int pin);
+  bool isPressed();
 };
 
 #endif

@@ -5,13 +5,13 @@
 
 class ServoMotor
 {
-    const int pin;
-    int currentAngle;
-    Servo servo;
+  const int pin;
+  int currentAngle;
+  Servo servo;
 
 public:
-    ServoMotor(int pin);
-    void update(int angle);
+  ServoMotor(int pin);
+  void update(int angle);
 };
 
 #endif

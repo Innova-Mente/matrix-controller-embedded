@@ -4,12 +4,12 @@
 
 class Led
 {
-	int pin;
+  int pin;
 
 public:
-	Led(int pin);
-	void turnOff();
-	void turnOn();
+  Led(int pin);
+  void turnOff();
+  void turnOn();
 };
 
 #endif

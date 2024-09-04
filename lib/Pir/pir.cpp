@@ -2,10 +2,10 @@
 
 Pir::Pir(int outPin) : outPin{outPin}
 {
-    pinMode(outPin, INPUT);
+  pinMode(outPin, INPUT);
 }
 
 bool Pir::detectPresence()
 {
-    return digitalRead(this->outPin) == HIGH;
+  return digitalRead(this->outPin) == HIGH;
 }

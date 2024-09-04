@@ -5,26 +5,26 @@
 
 ServoMotor::ServoMotor(int pin) : pin{pin}, currentAngle{0}, servo{}
 {
-    this->servo.attach(pin);
-    this->servo.write(this->currentAngle);
+  this->servo.attach(pin);
+  this->servo.write(this->currentAngle);
 }
 
 void ServoMotor::update(int angle)
 {
-    if (currentAngle >= angle)
+  if (currentAngle >= angle)
+  {
+    for (int pos = currentAngle; pos >= angle; pos -= SERVO_CHANGE_STEP)
     {
-        for (int pos = currentAngle; pos >= angle; pos -= SERVO_CHANGE_STEP)
-        {
-            this->servo.write(pos);
-            delay(SERVO_WAIT_BETWEEN_CHANGES);
-        }
+      this->servo.write(pos);
+      delay(SERVO_WAIT_BETWEEN_CHANGES);
     }
-    else
+  }
+  else
+  {
+    for (int pos = currentAngle; pos <= angle; pos += SERVO_CHANGE_STEP)
     {
-        for (int pos = currentAngle; pos <= angle; pos += SERVO_CHANGE_STEP)
-        {
-            this->servo.write(pos);
-            delay(SERVO_WAIT_BETWEEN_CHANGES);
-        }
+      this->servo.write(pos);
+      delay(SERVO_WAIT_BETWEEN_CHANGES);
     }
+  }
 }

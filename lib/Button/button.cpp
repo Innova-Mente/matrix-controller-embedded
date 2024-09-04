@@ -2,10 +2,10 @@
 
 Button::Button(int pin) : pin{pin}
 {
-    pinMode(pin, INPUT_PULLUP);
+  pinMode(pin, INPUT_PULLUP);
 }
 
 bool Button::isPressed()
 {
-    return digitalRead(this->pin) == HIGH;
+  return digitalRead(this->pin) == HIGH;
 }

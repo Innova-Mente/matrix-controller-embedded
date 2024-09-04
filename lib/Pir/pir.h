@@ -4,11 +4,11 @@
 
 class Pir
 {
-    const int outPin;
+  const int outPin;
 
 public:
-    Pir(int outPin);
-    bool detectPresence();
+  Pir(int outPin);
+  bool detectPresence();
 };
 
 #endif
