@@ -3,21 +3,19 @@
 
 #include <Adafruit_NeoPixel.h>
 
-uint32_t  RGB(uint8_t r, uint8_t g, uint8_t b);
+uint32_t RGB(uint8_t r, uint8_t g, uint8_t b);
 
-class LedMatrix {
+class LedMatrix
+{
+	Adafruit_NeoPixel *pPixels;
 
-  Adafruit_NeoPixel* pPixels;
-  
 public:
-
-  LedMatrix();
+	LedMatrix(int pin);
 	void clear();
 	void setPixel(int x, int y, unsigned int color);
 	void preparePixel(int x, int y, unsigned int color);
-  void show();
+	void show();
 	void fillColor(unsigned int color);
-
 };
 
 #endif
