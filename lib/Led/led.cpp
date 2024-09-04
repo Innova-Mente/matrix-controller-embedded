@@ -8,10 +8,10 @@ Led::Led(int pin) : pin{pin}
 
 void Led::turnOff()
 {
-  digitalWrite(this->pin, HIGH);
+  digitalWrite(this->pin, LOW);
 }
 
 void Led::turnOn()
 {
-  digitalWrite(this->pin, LOW);
+  digitalWrite(this->pin, HIGH);
 }
