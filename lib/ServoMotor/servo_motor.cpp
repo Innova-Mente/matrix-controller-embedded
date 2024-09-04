@@ -11,9 +11,10 @@ ServoMotor::ServoMotor(int pin) : pin{pin}, currentAngle{0}, servo{}
 
 void ServoMotor::update(int angle)
 {
-  if (currentAngle >= angle)
+  int newAngle = min(max(currentAngle + angle, 0), 180);
+  if (currentAngle >= newAngle)
   {
-    for (int pos = currentAngle; pos >= angle; pos -= SERVO_CHANGE_STEP)
+    for (int pos = currentAngle; pos >= newAngle; pos -= SERVO_CHANGE_STEP)
     {
       this->servo.write(pos);
       delay(SERVO_WAIT_BETWEEN_CHANGES);
@@ -21,10 +22,11 @@ void ServoMotor::update(int angle)
   }
   else
   {
-    for (int pos = currentAngle; pos <= angle; pos += SERVO_CHANGE_STEP)
+    for (int pos = currentAngle; pos <= newAngle; pos += SERVO_CHANGE_STEP)
     {
       this->servo.write(pos);
       delay(SERVO_WAIT_BETWEEN_CHANGES);
     }
   }
+  this->currentAngle = newAngle;
 }
