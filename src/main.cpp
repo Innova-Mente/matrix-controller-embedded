@@ -57,11 +57,7 @@ String createSubscribeMessage(String topic)
 
 void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
 {
-  if (eventType == WStype_DISCONNECTED)
-  {
-    USE_SERIAL.printf("Disconnected!\n");
-  }
-  else if (eventType == WStype_CONNECTED)
+  if (eventType == WStype_CONNECTED)
   {
     USE_SERIAL.printf("Connected!\n");
 
