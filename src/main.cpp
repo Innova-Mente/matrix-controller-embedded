@@ -11,7 +11,7 @@
 #include <photo_resistor.h>
 
 #define USE_SERIAL Serial
-#define DEVICE_NUMBER String("4")
+#define DEVICE_NUMBER String("2")
 
 #define LED_MATRIX_PIN D1
 #define LED_PIN D8
@@ -73,12 +73,12 @@ void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
   }
 }
 
-void buttonInterrupt()
+void IRAM_ATTR buttonInterrupt()
 {
   pressDetected = true;
 }
 
-void pirInterrupt()
+void IRAM_ATTR pirInterrupt()
 {
   presenceDetected = true;
 }
@@ -88,9 +88,9 @@ void setup()
   USE_SERIAL.begin(115200);
   USE_SERIAL.setDebugOutput(true);
 
-  connectToWiFi("TIM-80597315", "DPtPKZzUFS5fZbdz9eCD6F63");
+  connectToWiFi("TIM-83625402", "hK2XG5uf5RbxCAHy2zXZuGxD");
 
-  setupWebSocket(webSocket, "192.168.1.24");
+  setupWebSocket(webSocket, "192.168.1.10");
   webSocket.onEvent(webSocketEvent);
 
   ledMatrix = new LedMatrix(LED_MATRIX_PIN);
@@ -146,6 +146,7 @@ void loop()
     {
       if (action == "detectPress")
       {
+        pinMode(BUTTON_PIN, INPUT_PULLUP);
         attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonInterrupt, RISING);
       }
     }
