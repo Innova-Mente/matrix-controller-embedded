@@ -16,9 +16,9 @@
 #define LED_PIN D8
 #define SONAR_ECHO_PIN D5
 #define SONAR_TRIG_PIN D6
-#define PIR_PIN D0
+#define PIR_PIN D7
 #define BUTTON_PIN D2
-#define SERVO_MOTOR_PIN D7
+#define SERVO_MOTOR_PIN D4
 #define PHOTO_RESISTOR_PIN A0
 
 LedMatrix *ledMatrix;
