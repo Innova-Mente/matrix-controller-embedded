@@ -10,15 +10,15 @@
 #include <photo_resistor.h>
 
 #define USE_SERIAL Serial
-#define DEVICE_NUMBER String("1")
+#define DEVICE_NUMBER String("2")
 
 #define LED_MATRIX_PIN D1
-#define LED_PIN D8
+#define LED_PIN D4
 #define SONAR_ECHO_PIN D5
 #define SONAR_TRIG_PIN D6
-#define PIR_PIN D7
+#define IR_PIN D7
 #define BUTTON_PIN D2
-#define SERVO_MOTOR_PIN D4
+#define SERVO_MOTOR_PIN D8
 #define PHOTO_RESISTOR_PIN A0
 
 LedMatrix *ledMatrix;
@@ -94,7 +94,7 @@ void setup()
   ledMatrix = new LedMatrix(LED_MATRIX_PIN);
   led = new Led(LED_PIN);
   sonar = new Sonar(SONAR_TRIG_PIN, SONAR_ECHO_PIN);
-  pir = new Pir(PIR_PIN);
+  pir = new Pir(IR_PIN);
   servoMotor = new ServoMotor(SERVO_MOTOR_PIN);
   photoResistor = new PhotoResistor(PHOTO_RESISTOR_PIN);
 }
@@ -174,7 +174,7 @@ void loop()
     {
       if (action == "detectPresence")
       {
-        attachInterrupt(digitalPinToInterrupt(PIR_PIN), pirInterrupt, RISING);
+        attachInterrupt(digitalPinToInterrupt(IR_PIN), pirInterrupt, RISING);
       }
       else if (action == "measurePresence")
       {
@@ -210,7 +210,7 @@ void loop()
   }
   if (presenceDetected)
   {
-    detachInterrupt(digitalPinToInterrupt(PIR_PIN));
+    detachInterrupt(digitalPinToInterrupt(IR_PIN));
     presenceDetected = false;
 
     String message = createPublishMessage("pir", "presenceDetected", "{}");
