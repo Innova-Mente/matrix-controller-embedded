@@ -10,6 +10,7 @@ public:
   Led(int pin);
   void turnOff();
   void turnOn();
+  void setState(bool state);
 };
 
 #endif

@@ -115,14 +115,7 @@ void loop()
       if (action == "update")
       {
         bool state = lastMessage["payload"]["params"]["state"];
-        if (state)
-        {
-          greenLed->turnOn();
-        }
-        else
-        {
-          greenLed->turnOff();
-        }
+        greenLed->setState(state);
       }
     }
     else if (target == "redLed")
@@ -130,14 +123,7 @@ void loop()
       if (action == "update")
       {
         bool state = lastMessage["payload"]["params"]["state"];
-        if (state)
-        {
-          redLed->turnOn();
-        }
-        else
-        {
-          redLed->turnOff();
-        }
+        redLed->setState(state);
       }
     }
     else if (target == "button")

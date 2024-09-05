@@ -15,3 +15,15 @@ void Led::turnOn()
 {
   digitalWrite(this->pin, HIGH);
 }
+
+void Led::setState(bool state)
+{
+  if (state)
+  {
+    turnOn();
+  }
+  else
+  {
+    turnOff();
+  }
+}
