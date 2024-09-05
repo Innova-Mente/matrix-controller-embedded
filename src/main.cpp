@@ -5,7 +5,7 @@
 #include <led_matrix.h>
 #include <led.h>
 #include <sonar.h>
-#include <pir.h>
+#include <ir.h>
 #include <servo_motor.h>
 #include <photo_resistor.h>
 
@@ -24,7 +24,7 @@
 LedMatrix *ledMatrix;
 Led *led;
 Sonar *sonar;
-Pir *pir;
+IR *ir;
 ServoMotor *servoMotor;
 PhotoResistor *photoResistor;
 
@@ -76,7 +76,7 @@ void IRAM_ATTR buttonInterrupt()
   pressDetected = true;
 }
 
-void IRAM_ATTR pirInterrupt()
+void IRAM_ATTR irInterrupt()
 {
   presenceDetected = true;
 }
@@ -94,7 +94,7 @@ void setup()
   ledMatrix = new LedMatrix(LED_MATRIX_PIN);
   led = new Led(LED_PIN);
   sonar = new Sonar(SONAR_TRIG_PIN, SONAR_ECHO_PIN);
-  pir = new Pir(IR_PIN);
+  ir = new IR(IR_PIN);
   servoMotor = new ServoMotor(SERVO_MOTOR_PIN);
   photoResistor = new PhotoResistor(PHOTO_RESISTOR_PIN);
 }
@@ -170,16 +170,16 @@ void loop()
         servoMotor->update(angle);
       }
     }
-    else if (target == "pir")
+    else if (target == "ir")
     {
       if (action == "detectPresence")
       {
-        attachInterrupt(digitalPinToInterrupt(IR_PIN), pirInterrupt, RISING);
+        attachInterrupt(digitalPinToInterrupt(IR_PIN), irInterrupt, RISING);
       }
       else if (action == "measurePresence")
       {
-        String presence = pir->detectPresence() ? "true" : "false";
-        String message = createPublishMessage("pir", "presenceMeasured", String("{ \"presence\": ") + presence + "}");
+        String presence = ir->detectPresence() ? "true" : "false";
+        String message = createPublishMessage("ir", "presenceMeasured", String("{ \"presence\": ") + presence + "}");
         webSocket.sendTXT(message);
       }
     }
@@ -213,7 +213,7 @@ void loop()
     detachInterrupt(digitalPinToInterrupt(IR_PIN));
     presenceDetected = false;
 
-    String message = createPublishMessage("pir", "presenceDetected", "{}");
+    String message = createPublishMessage("ir", "presenceDetected", "{}");
     webSocket.sendTXT(message);
   }
   if (isSonarDetecting)

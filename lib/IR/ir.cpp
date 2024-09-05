@@ -1,11 +1,11 @@
-#include <pir.h>
+#include <ir.h>
 
-Pir::Pir(int outPin) : outPin{outPin}
+IR::IR(int outPin) : outPin{outPin}
 {
   pinMode(outPin, INPUT_PULLUP);
 }
 
-bool Pir::detectPresence()
+bool IR::detectPresence()
 {
   return digitalRead(this->outPin) == HIGH;
 }

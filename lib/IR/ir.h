@@ -1,13 +1,13 @@
-#ifndef __PIR__
-#define __PIR__
+#ifndef __IR__
+#define __IR__
 #include <Arduino.h>
 
-class Pir
+class IR
 {
   const int outPin;
 
 public:
-  Pir(int outPin);
+  IR(int outPin);
   bool detectPresence();
 };
 
