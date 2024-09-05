@@ -28,8 +28,8 @@ Pir *pir;
 ServoMotor *servoMotor;
 PhotoResistor *photoResistor;
 
-bool pressDetected = false;
-bool presenceDetected = false;
+volatile bool pressDetected = false;
+volatile bool presenceDetected = false;
 
 bool isSonarDetecting = false;
 int minSonarDetectDistance = 0;
