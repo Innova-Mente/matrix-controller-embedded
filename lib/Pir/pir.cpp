@@ -2,7 +2,7 @@
 
 Pir::Pir(int outPin) : outPin{outPin}
 {
-  pinMode(outPin, INPUT);
+  pinMode(outPin, INPUT_PULLUP);
 }
 
 bool Pir::detectPresence()
