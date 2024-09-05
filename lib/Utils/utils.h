@@ -11,6 +11,6 @@ void setupWebSocket(WebSocketsClient &webSocket, String serverAddress);
 
 void publishMessage(WebSocketsClient &webSocket, String topic, String target, String action, String params);
 
-void subscribeToTopic(WebSocketsClient &webSocket, String topic);
+void subscribeToTopic(WebSocketsClient &webSocket, String topic, String clientName);
 
 #endif

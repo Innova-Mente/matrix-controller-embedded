@@ -9,8 +9,9 @@
 #include <servo_motor.h>
 
 #define DEVICE_NUMBER String("2")
-#define INPUT_TOPIC String("dispositivo-" + DEVICE_NUMBER + "-in")
-#define OUTPUT_TOPIC String("dispositivo-" + DEVICE_NUMBER + "-out")
+#define DEVICE_NAME String("dispositivo-" + DEVICE_NUMBER)
+#define INPUT_TOPIC String(DEVICE_NAME + "-in")
+#define OUTPUT_TOPIC String(DEVICE_NAME + "-out")
 
 #define LED_MATRIX_PIN D1
 #define GREEN_LED_PIN D0
@@ -55,7 +56,7 @@ void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
   if (eventType == WStype_CONNECTED)
   {
     Serial.printf("Connected!\n");
-    subscribeToTopic(webSocket, INPUT_TOPIC);
+    subscribeToTopic(webSocket, INPUT_TOPIC, DEVICE_NAME);
   }
   else if (eventType == WStype_TEXT)
   {

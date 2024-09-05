@@ -30,9 +30,9 @@ void publishMessage(WebSocketsClient &webSocket, String topic, String target, St
   Serial.printf("Published message on topic \"%s\": \n%s\n", topic.c_str(), message.c_str());
 }
 
-void subscribeToTopic(WebSocketsClient &webSocket, String topic)
+void subscribeToTopic(WebSocketsClient &webSocket, String topic, String clientName)
 {
-  String message = "{ \"type\": \"subscribe\", \"topic\": \"" + topic + "\"}";
+  String message = "{ \"type\": \"subscribe\", \"topic\": \"" + topic + "\", \"payload\": { \"clientName\": \"" + clientName + "\"}}";
   webSocket.sendTXT(message);
 
   Serial.printf("Subscribed to topic \"%s\"\n", topic.c_str());
