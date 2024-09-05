@@ -1,32 +1,40 @@
 #include <servo_motor.h>
 
-#define SERVO_CHANGE_STEP 1
-#define SERVO_WAIT_BETWEEN_CHANGES 5
+#define START_ANGLE 90
+#define WAIT_IN_BETWEEN_CHANGES 10
 
-ServoMotor::ServoMotor(int pin) : pin{pin}, currentAngle{0}, servo{}
+ServoMotor::ServoMotor(int pin) : pin{pin}, servo{}
 {
-  this->servo.attach(pin);
-  this->servo.write(this->currentAngle);
+  servo.attach(pin);
+  currentAngle = servo.read();
+  setAngle(START_ANGLE);
 }
 
-void ServoMotor::update(int angle)
+void ServoMotor::setAngle(int newAngle)
 {
-  int newAngle = min(max(currentAngle + angle, 0), 180);
-  if (currentAngle >= newAngle)
+  newAngle = constrain(newAngle, 0, 180);
+
+  if (newAngle >= currentAngle)
   {
-    for (int pos = currentAngle; pos >= newAngle; pos -= SERVO_CHANGE_STEP)
+    for (int pos = currentAngle; pos <= newAngle; pos++)
     {
-      this->servo.write(pos);
-      delay(SERVO_WAIT_BETWEEN_CHANGES);
+      servo.write(pos);
+      delay(WAIT_IN_BETWEEN_CHANGES);
     }
   }
   else
   {
-    for (int pos = currentAngle; pos <= newAngle; pos += SERVO_CHANGE_STEP)
+    for (int pos = currentAngle; pos >= newAngle; pos--)
     {
-      this->servo.write(pos);
-      delay(SERVO_WAIT_BETWEEN_CHANGES);
+      servo.write(pos);
+      delay(WAIT_IN_BETWEEN_CHANGES);
     }
   }
-  this->currentAngle = newAngle;
+
+  currentAngle = newAngle;
+}
+
+void ServoMotor::incrementAngle(int increment)
+{
+  setAngle(currentAngle + increment);
 }

@@ -11,7 +11,8 @@ class ServoMotor
 
 public:
   ServoMotor(int pin);
-  void update(int angle);
+  void setAngle(int angle);
+  void incrementAngle(int increment);
 };
 
 #endif

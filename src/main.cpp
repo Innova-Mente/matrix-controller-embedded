@@ -153,7 +153,7 @@ void loop()
       if (action == "rotate")
       {
         int angle = lastMessage["payload"]["params"]["angle"];
-        servoMotor->update(angle);
+        servoMotor->incrementAngle(angle);
       }
     }
     else if (target == "ir")
