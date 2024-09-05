@@ -5,10 +5,10 @@ PhotoResistor::PhotoResistor(int pin) : pin{pin}
   pinMode(pin, INPUT);
 }
 
-int PhotoResistor::measure()
+float PhotoResistor::measure()
 {
   int absoluteValue = analogRead(this->pin);
-  float percentage = map(absoluteValue, 0, 1023, 0, 100);
+  float percentage = absoluteValue / 1023 * 100;
 
   return percentage;
 }

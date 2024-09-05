@@ -9,7 +9,7 @@ class Sonar
 
 public:
   Sonar(int trigPin, int echoPin);
-  bool measure();
+  float measure();
 };
 
 #endif

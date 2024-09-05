@@ -157,7 +157,7 @@ void loop()
       }
       else if (action == "measureDistance")
       {
-        int distance = sonar->measure();
+        float distance = sonar->measure();
         String message = createPublishMessage("sonar", "distanceMeasured", String("{ \"distance\": ") + distance + "}");
         webSocket.sendTXT(message);
       }
@@ -193,7 +193,7 @@ void loop()
       }
       else if (action == "measureBrightness")
       {
-        int brightness = photoResistor->measure();
+        float brightness = photoResistor->measure();
         String message = createPublishMessage("photoResistor", "brightnessMeasured", String("{ \"brightness\": ") + brightness + "}");
         webSocket.sendTXT(message);
       }
@@ -218,7 +218,7 @@ void loop()
   }
   if (isSonarDetecting)
   {
-    int distance = sonar->measure();
+    float distance = sonar->measure();
     if (distance >= minSonarDetectDistance && distance <= maxSonarDetectDistance)
     {
       isSonarDetecting = false;
@@ -228,7 +228,7 @@ void loop()
   }
   if (isPhotoResistorDetecting)
   {
-    int brightness = photoResistor->measure();
+    float brightness = photoResistor->measure();
     if (brightness >= minPhotoResistorDetectBrightness && brightness <= maxPhotoResistorDetectBrightness)
     {
       isPhotoResistorDetecting = false;

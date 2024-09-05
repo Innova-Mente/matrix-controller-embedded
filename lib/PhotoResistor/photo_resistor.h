@@ -8,7 +8,7 @@ class PhotoResistor
 
 public:
   PhotoResistor(int pin);
-  int measure();
+  float measure();
 };
 
 #endif
