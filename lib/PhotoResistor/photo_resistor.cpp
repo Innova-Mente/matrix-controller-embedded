@@ -1,9 +1,6 @@
 #include <photo_resistor.h>
 
-PhotoResistor::PhotoResistor(int pin) : pin{pin}
-{
-  pinMode(pin, INPUT);
-}
+PhotoResistor::PhotoResistor(int pin) : pin{pin} {}
 
 float PhotoResistor::measure()
 {
