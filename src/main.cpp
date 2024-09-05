@@ -8,7 +8,6 @@
 #include <ir.h>
 #include <servo_motor.h>
 
-#define USE_SERIAL Serial
 #define DEVICE_NUMBER String("2")
 #define INPUT_TOPIC String("dispositivo-" + DEVICE_NUMBER + "-in")
 #define OUTPUT_TOPIC String("dispositivo-" + DEVICE_NUMBER + "-out")
@@ -55,7 +54,7 @@ void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
 {
   if (eventType == WStype_CONNECTED)
   {
-    USE_SERIAL.printf("Connected!\n");
+    Serial.printf("Connected!\n");
     subscribeToTopic(webSocket, INPUT_TOPIC);
   }
   else if (eventType == WStype_TEXT)
@@ -63,14 +62,14 @@ void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
     deserializeJson(lastMessage, message);
     newMessageArrived = true;
     String topic = lastMessage["topic"].as<String>();
-    USE_SERIAL.printf("Received message from topic \"%s\": \n%s\n", topic.c_str(), message);
+    Serial.printf("Received message from topic \"%s\": \n%s\n", topic.c_str(), message);
   }
 }
 
 void setup()
 {
-  USE_SERIAL.begin(115200);
-  USE_SERIAL.setDebugOutput(true);
+  Serial.begin(115200);
+  Serial.setDebugOutput(true);
 
   connectToWiFi("TIM-83625402", "hK2XG5uf5RbxCAHy2zXZuGxD");
 
