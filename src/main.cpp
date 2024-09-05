@@ -13,7 +13,8 @@
 #define DEVICE_NUMBER String("2")
 
 #define LED_MATRIX_PIN D1
-#define LED_PIN D4
+#define GREEN_LED_PIN D0
+#define RED_LED_PIN D4
 #define SONAR_ECHO_PIN D5
 #define SONAR_TRIG_PIN D6
 #define IR_PIN D7
@@ -22,7 +23,8 @@
 #define PHOTO_RESISTOR_PIN A0
 
 LedMatrix *ledMatrix;
-Led *led;
+Led *greenLed;
+Led *redLed;
 Sonar *sonar;
 IR *ir;
 ServoMotor *servoMotor;
@@ -92,7 +94,8 @@ void setup()
   webSocket.onEvent(webSocketEvent);
 
   ledMatrix = new LedMatrix(LED_MATRIX_PIN);
-  led = new Led(LED_PIN);
+  greenLed = new Led(GREEN_LED_PIN);
+  redLed = new Led(RED_LED_PIN);
   sonar = new Sonar(SONAR_TRIG_PIN, SONAR_ECHO_PIN);
   ir = new IR(IR_PIN);
   servoMotor = new ServoMotor(SERVO_MOTOR_PIN);
@@ -124,18 +127,33 @@ void loop()
         ledMatrix->fillColor(RGB(r, g, b));
       }
     }
-    else if (target == "led")
+    else if (target == "greenLed")
     {
       if (action == "update")
       {
         bool state = lastMessage["payload"]["params"]["state"];
         if (state)
         {
-          led->turnOn();
+          greenLed->turnOn();
         }
         else
         {
-          led->turnOff();
+          greenLed->turnOff();
+        }
+      }
+    }
+    else if (target == "redLed")
+    {
+      if (action == "update")
+      {
+        bool state = lastMessage["payload"]["params"]["state"];
+        if (state)
+        {
+          redLed->turnOn();
+        }
+        else
+        {
+          redLed->turnOff();
         }
       }
     }
