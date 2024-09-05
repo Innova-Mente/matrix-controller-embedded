@@ -7,7 +7,6 @@
 #include <sonar.h>
 #include <ir.h>
 #include <servo_motor.h>
-#include <photo_resistor.h>
 
 #define USE_SERIAL Serial
 #define DEVICE_NUMBER String("2")
@@ -20,7 +19,6 @@
 #define IR_PIN D7
 #define BUTTON_PIN D2
 #define SERVO_MOTOR_PIN D8
-#define PHOTO_RESISTOR_PIN A0
 
 LedMatrix *ledMatrix;
 Led *greenLed;
@@ -28,7 +26,6 @@ Led *redLed;
 Sonar *sonar;
 IR *ir;
 ServoMotor *servoMotor;
-PhotoResistor *photoResistor;
 
 volatile bool pressDetected = false;
 volatile bool presenceDetected = false;
@@ -36,10 +33,6 @@ volatile bool presenceDetected = false;
 bool isSonarDetecting = false;
 int minSonarDetectDistance = 0;
 int maxSonarDetectDistance = 10000;
-
-bool isPhotoResistorDetecting = false;
-int minPhotoResistorDetectBrightness = 0;
-int maxPhotoResistorDetectBrightness = 100;
 
 WebSocketsClient webSocket;
 JsonDocument lastMessage;
@@ -99,7 +92,6 @@ void setup()
   sonar = new Sonar(SONAR_TRIG_PIN, SONAR_ECHO_PIN);
   ir = new IR(IR_PIN);
   servoMotor = new ServoMotor(SERVO_MOTOR_PIN);
-  photoResistor = new PhotoResistor(PHOTO_RESISTOR_PIN);
 }
 
 void loop()
@@ -201,21 +193,6 @@ void loop()
         webSocket.sendTXT(message);
       }
     }
-    else if (target == "photoResistor")
-    {
-      if (action == "detectBrightness")
-      {
-        isPhotoResistorDetecting = true;
-        minPhotoResistorDetectBrightness = lastMessage["payload"]["params"]["min"];
-        maxPhotoResistorDetectBrightness = lastMessage["payload"]["params"]["max"];
-      }
-      else if (action == "measureBrightness")
-      {
-        float brightness = photoResistor->measure();
-        String message = createPublishMessage("photoResistor", "brightnessMeasured", String("{ \"brightness\": ") + brightness + "}");
-        webSocket.sendTXT(message);
-      }
-    }
   }
 
   if (pressDetected)
@@ -241,16 +218,6 @@ void loop()
     {
       isSonarDetecting = false;
       String message = createPublishMessage("sonar", "distanceDetected", "{}");
-      webSocket.sendTXT(message);
-    }
-  }
-  if (isPhotoResistorDetecting)
-  {
-    float brightness = photoResistor->measure();
-    if (brightness >= minPhotoResistorDetectBrightness && brightness <= maxPhotoResistorDetectBrightness)
-    {
-      isPhotoResistorDetecting = false;
-      String message = createPublishMessage("photoResistor", "brightnessDetected", "{}");
       webSocket.sendTXT(message);
     }
   }
