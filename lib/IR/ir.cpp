@@ -7,5 +7,5 @@ IR::IR(int outPin) : outPin{outPin}
 
 bool IR::detectPresence()
 {
-  return digitalRead(this->outPin) == HIGH;
+  return digitalRead(outPin) == HIGH;
 }
