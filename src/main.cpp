@@ -10,6 +10,8 @@
 
 #define USE_SERIAL Serial
 #define DEVICE_NUMBER String("2")
+#define INPUT_TOPIC String("dispositivo-" + DEVICE_NUMBER + "-in")
+#define OUTPUT_TOPIC String("dispositivo-" + DEVICE_NUMBER + "-out")
 
 #define LED_MATRIX_PIN D1
 #define GREEN_LED_PIN D0
@@ -35,36 +37,9 @@ int minSonarDetectDistance = 0;
 int maxSonarDetectDistance = 10000;
 
 WebSocketsClient webSocket;
-JsonDocument lastMessage;
+
 bool newMessageArrived = false;
-
-String createPublishMessage(String target, String action, String params)
-{
-  return "{ \"type\": \"publish\", \"topic\": \"dispositivo-" + DEVICE_NUMBER + "-out\", \"payload\": { \"target\": \"" + target + "\", \"action\": \"" + action + "\", \"params\": " + params + "}}";
-}
-
-String createSubscribeMessage(String topic)
-{
-  return "{ \"type\": \"subscribe\", \"topic\": \"" + topic + "\"}";
-}
-
-void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
-{
-  if (eventType == WStype_CONNECTED)
-  {
-    USE_SERIAL.printf("Connected!\n");
-
-    String message = createSubscribeMessage("dispositivo-" + DEVICE_NUMBER + "-in");
-    webSocket.sendTXT(message);
-  }
-  else if (eventType == WStype_TEXT)
-  {
-    USE_SERIAL.printf("Received message: \n%s\n", message);
-
-    deserializeJson(lastMessage, message);
-    newMessageArrived = true;
-  }
-}
+JsonDocument lastMessage;
 
 void IRAM_ATTR buttonInterrupt()
 {
@@ -74,6 +49,22 @@ void IRAM_ATTR buttonInterrupt()
 void IRAM_ATTR irInterrupt()
 {
   presenceDetected = true;
+}
+
+void webSocketEvent(WStype_t eventType, uint8_t *message, size_t messageLength)
+{
+  if (eventType == WStype_CONNECTED)
+  {
+    USE_SERIAL.printf("Connected!\n");
+    subscribeToTopic(webSocket, INPUT_TOPIC);
+  }
+  else if (eventType == WStype_TEXT)
+  {
+    deserializeJson(lastMessage, message);
+    newMessageArrived = true;
+    String topic = lastMessage["topic"].as<String>();
+    USE_SERIAL.printf("Received message from topic \"%s\": \n%s\n", topic.c_str(), message);
+  }
 }
 
 void setup()
@@ -168,8 +159,7 @@ void loop()
       else if (action == "measureDistance")
       {
         float distance = sonar->measure();
-        String message = createPublishMessage("sonar", "distanceMeasured", String("{ \"distance\": ") + distance + "}");
-        webSocket.sendTXT(message);
+        publishMessage(webSocket, OUTPUT_TOPIC, "sonar", "distanceMeasured", String("{ \"distance\": ") + distance + "}");
       }
     }
     else if (target == "servo")
@@ -189,8 +179,7 @@ void loop()
       else if (action == "measurePresence")
       {
         String presence = ir->detectPresence() ? "true" : "false";
-        String message = createPublishMessage("ir", "presenceMeasured", String("{ \"presence\": ") + presence + "}");
-        webSocket.sendTXT(message);
+        publishMessage(webSocket, OUTPUT_TOPIC, "ir", "presenceMeasured", String("{ \"presence\": ") + presence + "}");
       }
     }
   }
@@ -199,17 +188,13 @@ void loop()
   {
     detachInterrupt(digitalPinToInterrupt(BUTTON_PIN));
     pressDetected = false;
-
-    String message = createPublishMessage("button", "pressDetected", "{}");
-    webSocket.sendTXT(message);
+    publishMessage(webSocket, OUTPUT_TOPIC, "button", "pressDetected", "{}");
   }
   if (presenceDetected)
   {
     detachInterrupt(digitalPinToInterrupt(IR_PIN));
     presenceDetected = false;
-
-    String message = createPublishMessage("ir", "presenceDetected", "{}");
-    webSocket.sendTXT(message);
+    publishMessage(webSocket, OUTPUT_TOPIC, "ir", "presenceDetected", "{}");
   }
   if (isSonarDetecting)
   {
@@ -217,8 +202,7 @@ void loop()
     if (distance >= minSonarDetectDistance && distance <= maxSonarDetectDistance)
     {
       isSonarDetecting = false;
-      String message = createPublishMessage("sonar", "distanceDetected", "{}");
-      webSocket.sendTXT(message);
+      publishMessage(webSocket, OUTPUT_TOPIC, "sonar", "distanceDetected", "{}");
     }
   }
 }

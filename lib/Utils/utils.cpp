@@ -21,3 +21,19 @@ void setupWebSocket(WebSocketsClient &webSocket, String serverAddress)
   // consider connection disconnected if pong is not received 2 times in a row
   webSocket.enableHeartbeat(15000, 3000, 2);
 }
+
+void publishMessage(WebSocketsClient &webSocket, String topic, String target, String action, String params)
+{
+  String message = "{ \"type\": \"publish\", \"topic\": \"" + topic + "\", \"payload\": { \"target\": \"" + target + "\", \"action\": \"" + action + "\", \"params\": " + params + "}}";
+  webSocket.sendTXT(message);
+
+  Serial.printf("Published message on topic \"%s\": \n%s\n", topic.c_str(), message.c_str());
+}
+
+void subscribeToTopic(WebSocketsClient &webSocket, String topic)
+{
+  String message = "{ \"type\": \"subscribe\", \"topic\": \"" + topic + "\"}";
+  webSocket.sendTXT(message);
+
+  Serial.printf("Subscribed to topic \"%s\"\n", topic.c_str());
+}
