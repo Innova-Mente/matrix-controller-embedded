@@ -93,10 +93,6 @@ void loop()
   {
     newMessageArrived = false;
 
-    // always detach old interrupts when a new message arrives
-    detachInterrupt(digitalPinToInterrupt(IR_PIN));
-    detachInterrupt(digitalPinToInterrupt(BUTTON_PIN));
-
     String target = lastMessage["payload"]["target"];
     String action = lastMessage["payload"]["action"];
 
