@@ -8,7 +8,7 @@
 #include <ir.h>
 #include <servo_motor.h>
 
-#define DEVICE_NUMBER String("2")
+#define DEVICE_NUMBER String("4")
 #define DEVICE_NAME String("dispositivo-" + DEVICE_NUMBER)
 #define INPUT_TOPIC String(DEVICE_NAME + "-in")
 #define OUTPUT_TOPIC String(DEVICE_NAME + "-out")
@@ -72,9 +72,9 @@ void setup()
   Serial.begin(115200);
   Serial.setDebugOutput(true);
 
-  connectToWiFi("TIM-83625402", "hK2XG5uf5RbxCAHy2zXZuGxD");
+  connectToWiFi("MicroMondo-2daY6", "UNIBO1234");
 
-  setupWebSocket(webSocket, "192.168.1.10");
+  setupWebSocket(webSocket, "192.168.4.1");
   webSocket.onEvent(webSocketEvent);
 
   ledMatrix = new LedMatrix(LED_MATRIX_PIN);
