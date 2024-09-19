@@ -5,14 +5,16 @@ echo "To install the CLI run: sudo pip install -U platformio"
 echo "Always remember to run this script within the project directory"
 
 if [ "$#" -ne 3 ]; then
-  echo "Error: This script requires exactly 3 arguments. The DEVICE_NUMBER, WIFI_NAME and WIFI_PASSWORD"
-  echo "Example: ./setup-script.sh 3 MicroMondo-2daY6 UNIBO1234"
+  echo "Error: This script requires exactly 3 arguments. The DEVICE_NUMBER, PACKAGE_ID and WIFI_PASSWORD"
+  echo "Example: ./setup-script.sh 3 2daY6 UNIBO1234"
   exit 1
 fi
 
 DEVICE_NUMBER=$1
-WIFI_NAME=$2
+PACKAGE_ID=$2
 WIFI_PASSWORD=$3
+
+WIFI_NAME="Rete $PACKAGE_ID dei MicroMondi"
 
 cp src/main.cpp src/.main.cpp.backup
 
