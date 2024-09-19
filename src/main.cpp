@@ -8,7 +8,7 @@
 #include <ir.h>
 #include <servo_motor.h>
 
-#define DEVICE_NUMBER String("4")
+#define DEVICE_NUMBER String("BASH_DEVICE_NUMBER")
 #define DEVICE_NAME String("dispositivo-" + DEVICE_NUMBER)
 #define INPUT_TOPIC String(DEVICE_NAME + "-in")
 #define OUTPUT_TOPIC String(DEVICE_NAME + "-out")
@@ -72,7 +72,7 @@ void setup()
   Serial.begin(115200);
   Serial.setDebugOutput(true);
 
-  connectToWiFi("MicroMondo-2daY6", "UNIBO1234");
+  connectToWiFi("BASH_WIFI_NAME", "BASH_WIFI_PASSWORD");
 
   setupWebSocket(webSocket, "192.168.4.1");
   webSocket.onEvent(webSocketEvent);
