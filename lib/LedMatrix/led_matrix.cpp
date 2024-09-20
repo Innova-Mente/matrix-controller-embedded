@@ -41,3 +41,9 @@ void LedMatrix::fillColor(unsigned int color)
   pPixels->fill(color);
   pPixels->show();
 }
+
+void LedMatrix::fillRow(unsigned int color, int row)
+{
+  pPixels->fill(color, row * 8, 8);
+  pPixels->show();
+}

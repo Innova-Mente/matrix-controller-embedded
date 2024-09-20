@@ -110,6 +110,15 @@ void loop()
 
         ledMatrix->fillColor(RGB(r, g, b));
       }
+      else if (action == "fillRow")
+      {
+        int r = lastMessage["payload"]["params"]["r"];
+        int g = lastMessage["payload"]["params"]["g"];
+        int b = lastMessage["payload"]["params"]["b"];
+        int row = lastMessage["payload"]["params"]["row"];
+
+        ledMatrix->fillRow(RGB(r, g, b), row - 1);
+      }
     }
     else if (target == "greenLed")
     {
