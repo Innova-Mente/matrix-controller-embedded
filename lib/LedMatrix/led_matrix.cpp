@@ -1,6 +1,8 @@
 #include <led_matrix.h>
 
 #define NUM_PIXELS 64
+#define ROW_FADE_WIDTH 2
+#define FADE_DELAY 80
 
 uint32_t RGB(uint8_t r, uint8_t g, uint8_t b)
 {
@@ -42,8 +44,34 @@ void LedMatrix::fillColor(unsigned int color)
   pPixels->show();
 }
 
-void LedMatrix::fillRow(unsigned int color, int row)
+void LedMatrix::fadeLeft(unsigned int color)
 {
-  pPixels->fill(color, row * 8, 8);
-  pPixels->show();
+  for (int row = 0; row < 8 + ROW_FADE_WIDTH; row++)
+  {
+    pPixels->fill(color, row * 8, 8);
+    pPixels->show();
+    delay(FADE_DELAY);
+    if (row - ROW_FADE_WIDTH >= 0 && row - ROW_FADE_WIDTH < 8)
+    {
+      pPixels->fill(0, (row - ROW_FADE_WIDTH) * 8, 8);
+    }
+    pPixels->show();
+    delay(FADE_DELAY);
+  }
+}
+
+void LedMatrix::fadeRight(unsigned int color)
+{
+  for (int row = 7; row >= 0 - ROW_FADE_WIDTH; row--)
+  {
+    pPixels->fill(color, row * 8, 8);
+    pPixels->show();
+    delay(FADE_DELAY);
+    if (row + ROW_FADE_WIDTH >= 0 && row + ROW_FADE_WIDTH < 8)
+    {
+      pPixels->fill(0, (row + ROW_FADE_WIDTH) * 8, 8);
+    }
+    pPixels->show();
+    delay(FADE_DELAY);
+  }
 }

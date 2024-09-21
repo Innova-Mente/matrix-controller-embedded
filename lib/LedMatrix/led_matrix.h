@@ -16,7 +16,8 @@ public:
 	void preparePixel(int x, int y, unsigned int color);
 	void show();
 	void fillColor(unsigned int color);
-	void fillRow(unsigned int color, int row);
+	void fadeLeft(unsigned int color);
+	void fadeRight(unsigned int color);
 };
 
 #endif

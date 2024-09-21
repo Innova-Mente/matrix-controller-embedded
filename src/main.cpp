@@ -110,14 +110,21 @@ void loop()
 
         ledMatrix->fillColor(RGB(r, g, b));
       }
-      else if (action == "fillRow")
+      else if (action == "fade")
       {
         int r = lastMessage["payload"]["params"]["r"];
         int g = lastMessage["payload"]["params"]["g"];
         int b = lastMessage["payload"]["params"]["b"];
-        int row = lastMessage["payload"]["params"]["row"];
+        String direction = lastMessage["payload"]["params"]["direction"];
 
-        ledMatrix->fillRow(RGB(r, g, b), row - 1);
+        if (direction == "left")
+        {
+          ledMatrix->fadeLeft(RGB(r, g, b));
+        }
+        else if (direction == "right")
+        {
+          ledMatrix->fadeRight(RGB(r, g, b));
+        }
       }
     }
     else if (target == "greenLed")
