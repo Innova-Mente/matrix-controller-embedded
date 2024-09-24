@@ -7,7 +7,6 @@
 #include <sonar.h>
 #include <ir.h>
 #include <servo_motor.h>
-#include <WebSocketsClient.h>
 
 #define DEVICE_NUMBER String("BASH_DEVICE_NUMBER")
 #define DEVICE_NAME String("dispositivo-" + DEVICE_NUMBER)
