@@ -9,7 +9,7 @@
 #include <servo_motor.h>
 #include <WebSocketsClient.h>
 
-#define DEVICE_NUMBER String("9")
+#define DEVICE_NUMBER String("BASH_DEVICE_NUMBER")
 #define DEVICE_NAME String("dispositivo-" + DEVICE_NUMBER)
 #define INPUT_TOPIC String(DEVICE_NAME + "-in")
 #define OUTPUT_TOPIC String(DEVICE_NAME + "-out")
@@ -73,9 +73,9 @@ void setup()
   Serial.begin(115200);
   Serial.setDebugOutput(true);
 
-  connectToWiFi("Redmi Note 11", "tuamamma");
+  connectToWiFi("BASH_WIFI_NAME", "BASH_WIFI_PASSWORD");
 
-  setupWebSocket(webSocket, "192.168.210.242");
+  setupWebSocket(webSocket, "192.168.4.1");
   webSocket.onEvent(webSocketEvent);
 
   ledMatrix = new LedMatrix(LED_MATRIX_PIN);
