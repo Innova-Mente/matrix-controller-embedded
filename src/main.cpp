@@ -8,8 +8,6 @@
 #include <ir.h>
 #include <servo_motor.h>
 #include <esp_websocket_client.h>
-#include <WString.h>
-#include <MB_String.h>
 
 #define LED_MATRIX_PIN 4
 #define GREEN_LED_PIN 13
